@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Lecteur</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>
+</head>
+<body>
+<script>
+  var p = new URLSearchParams(location.search);
+  var v = p.get('v') || '';
+  var start = parseInt(p.get('start') || '0', 10) || 0;
+
+  // Seuls les vrais identifiants YouTube (11 caracteres) sont acceptes
+  if (/^[\w-]{11}$/.test(v)) {
+    var f = document.createElement('iframe');
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture';
+    f.src = 'https://www.youtube.com/embed/' + v +
+      '?autoplay=1&controls=0&disablekb=1&modestbranding=1&rel=0&iv_load_policy=3&fs=0&playsinline=1' +
+      '&start=' + start + '&origin=' + encodeURIComponent(location.origin);
+    document.body.appendChild(f);
+  }
+</script>
+</body>
+</html>
